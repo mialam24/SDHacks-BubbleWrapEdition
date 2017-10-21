@@ -36,7 +36,7 @@ def main(args):
     for i , (img , Type) in enumerate( ActualImages[0:max_images]):
         # hackiness
         print('Downloading ' + img)
-        cmd = 'wget -x -O ' + save_directory + '/' + query + '/' + query + '_' + str(i) + '.jpg ' + img
+        cmd = 'wget -x -O ' + save_directory + '/' + query + '_' + str(i) + '.jpg ' + img
         os.system(cmd)
         print('Done downloading ' + img)
         # try:
