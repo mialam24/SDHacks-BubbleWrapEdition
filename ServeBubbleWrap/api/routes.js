@@ -11,10 +11,16 @@ router
   .post(dataController.itemOut);
 
 router
-  .route('/')
-  .get(function (req,res) {
-  	console.log("get!");
-  	res.end("hi");
-  });
+  .route('/name')
+  .post(dataController.getByName);
+
+ router
+   .route('/count')
+   .post(dataController.getCount);
+
+ router
+   .route('/all')
+   .post(dataController.getAllByLabel)
+   .get(dataController.getAll);
 
  module.exports = router;
