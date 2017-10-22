@@ -84,17 +84,17 @@ def run_graph(image_data, labels, input_layer_name, output_layer_name,
 
     return 0
 
-def label_image(image_file, labels_file='output_labels.txt', graph_file='output_graph.pb', 
+def label_image(image_data, labels_file='output_labels.txt', graph_file='output_graph.pb', 
                 input_layer='DecodeJpeg/contents:0', output_layer='final_result:0', num_top_predictions=5):
 
   # load graph, which is stored in the default session
   load_graph(graph_file)
 
-  image_data = load_image(image_file)
   labels = load_labels(labels_file)
 
   run_graph(image_data, labels, input_layer, output_layer,
             num_top_predictions)
 
 if __name__ == '__main__':
-    label_image('raw_data/apple/apple_0.jpg')
+	image_data = load_image('raw_data/apple/apple_0.jpg')
+    label_image(image_data)
