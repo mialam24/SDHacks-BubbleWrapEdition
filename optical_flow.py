@@ -11,15 +11,21 @@ def initializeDirection(old_frame):
     old_gray = cv2.cvtColor(old_frame, cv2.COLOR_BGR2GRAY)
     p0 = cv2.goodFeaturesToTrack(old_gray, mask = None, **feature_params)
 
-    return (old_gray,p0)
+    # Create some random colors
+    color = np.random.randint(0,255,(100,3))
 
-def direction(old_gray, newFrame, p0):
+    # Create a mask image for drawing purposes
+    mask = np.zeros_like(old_frame)
+ 
+    return (old_gray,p0,mask,color)
+
+def direction(old_gray, frame, p0, mask, color):
     # Parameters for lucas kanade optical flow
     lk_params = dict( winSize  = (15,15),
                       maxLevel = 2,
                       criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
 
-    frame_gray = cv2.cvtColor(newFrame, cv2.COLOR_BGR2GRAY)
+    frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
    
     # calculate optical flow
     p1, st, err = cv2.calcOpticalFlowPyrLK(old_gray, frame_gray, p0, None, **lk_params)
@@ -38,9 +44,16 @@ def direction(old_gray, newFrame, p0):
         #print(a,b,c,d)
         #mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), i)
         #frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
-
-        old_gray = frame_gray.copy()
-        p0 = good_new.reshape(-1,1,2)
+        mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), i)
+        #frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
+        img = cv2.add(frame,mask)
+    
+    cv2.imshow('frame',img)
+    k = cv2.waitKey(30) & 0xff
+    
+ 
+    old_gray = frame_gray.copy()
+    p0 = good_new.reshape(-1,1,2)
 
     return (movement, old_gray, p0)
 
