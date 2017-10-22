@@ -45,6 +45,12 @@ from __future__ import print_function
 import sys
 
 import tensorflow as tf
+import numpy as np
+
+def init_graph():
+  graph_file='output_graph.pb'
+  # load graph, which is stored in the default session
+  load_graph(graph_file)
 
 def load_image(filename):
   """Read in the image_data to be classified."""
@@ -77,6 +83,7 @@ def run_graph(image_data, labels, input_layer_name, output_layer_name,
 
     # Sort to show labels in order of confidence
     top_k = predictions.argsort()[-num_top_predictions:][::-1]
+    print('\n-----------------------------------------------------------')
     for node_id in top_k:
       human_string = labels[node_id]
       score = predictions[node_id]
@@ -84,17 +91,15 @@ def run_graph(image_data, labels, input_layer_name, output_layer_name,
 
     return 0
 
-def label_image(image_data, labels_file='output_labels.txt', graph_file='output_graph.pb', 
+def label_image(image_file, labels_file='output_labels.txt',  
                 input_layer='DecodeJpeg/contents:0', output_layer='final_result:0', num_top_predictions=5):
 
-  # load graph, which is stored in the default session
-  load_graph(graph_file)
-
   labels = load_labels(labels_file)
+  image_data = load_image(image_file)
 
   run_graph(image_data, labels, input_layer, output_layer,
             num_top_predictions)
 
 if __name__ == '__main__':
-	image_data = load_image('raw_data/apple/apple_0.jpg')
+	image_data = 'raw_data/apple/apple_0.jpg'
 	label_image(image_data)

@@ -2,17 +2,21 @@ import cv2
 import sys
 import os
 import time
+import numpy as np
+import mss
+
+top = 630
+left = 70
+width = 700
+height = 450
+
+sct = mss.mss()
 
 def takePicture(name=None, capture_id=0):
-    vc = cv2.VideoCapture(capture_id)
-    if vc.isOpened(): # try to get the first frame
-        _, frame = vc.read()
-        cv2.imwrite(name,frame)
-        print("Image captured into " + name)
-        return frame
-    else:
-        print("Image failed to capture.")
-        return None
+	raw_img = np.array(sct.grab({'top': top,'left': left, 'width': width, 'height': height}))
+	raw_img = np.array(raw_img)[:,:, 0:3]
+	return raw_img
+
 
 def main():
     # takePicture(name="one.jpg")
@@ -25,7 +29,8 @@ def main():
 	
 	for i in range(num_shots):
 		name = base_name + '_' + str(i) + '.jpg'
-		takePicture(os.path.join(dirname,base_name,name),capture_id=capture_id)
+		img=takePicture(os.path.join(dirname,base_name,name),capture_id=capture_id)
+		cv2.imwrite(os.path.join(dirname,base_name,name),img)
 		time.sleep(0.03)
 		
 
