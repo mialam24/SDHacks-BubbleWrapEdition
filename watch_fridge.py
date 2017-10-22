@@ -27,7 +27,7 @@ def watch(rate = 30):
 		if i % 15 == 0:
 			labeller(img)
 		differencer(img)
-		cv2.imshow('Raw Image', img)
+		#cv2.imshow('Raw Image', img)
 		movement, old_gray, p0 = direction(old_gray, img, p0, mask, color)
 		if movement:
 			print("MOVED")
