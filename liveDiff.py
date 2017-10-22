@@ -47,7 +47,7 @@ def liveDiff(curr_img):
 	#	cv2.rectangle(curr_img, (x, y), (x + w, y + h), (0, 0, 255), 2)
 	#
 	# show the output images
-	cv2.imshow("Diff", thresh)
+	cv2.imshow("Thresholded", thresh)
 		
 # vc = cv2.VideoCapture(0)
 # success, previous = vc.read()
