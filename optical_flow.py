@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-def initializeDirection(oldFrame):
+def initializeDirection(old_frame):
 	# params for ShiTomasi corner detection
     feature_params = dict( maxCorners = 100,
                            qualityLevel = 0.3,
@@ -11,15 +11,15 @@ def initializeDirection(oldFrame):
     old_gray = cv2.cvtColor(old_frame, cv2.COLOR_BGR2GRAY)
     p0 = cv2.goodFeaturesToTrack(old_gray, mask = None, **feature_params)
 
-	return p0
+    return (old_gray,p0)
 
-def direction(oldFrame, newFrame, p0):
+def direction(old_gray, newFrame, p0):
     # Parameters for lucas kanade optical flow
     lk_params = dict( winSize  = (15,15),
                       maxLevel = 2,
                       criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
 
-    frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    frame_gray = cv2.cvtColor(newFrame, cv2.COLOR_BGR2GRAY)
    
     # calculate optical flow
     p1, st, err = cv2.calcOpticalFlowPyrLK(old_gray, frame_gray, p0, None, **lk_params)
@@ -35,7 +35,6 @@ def direction(oldFrame, newFrame, p0):
         c,d = old.ravel()
         if (a - c) > 3:
             movement = True
-            print("YEAH BOI, Get it in !!!!")
         #print(a,b,c,d)
         #mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), i)
         #frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
@@ -43,7 +42,7 @@ def direction(oldFrame, newFrame, p0):
         old_gray = frame_gray.copy()
         p0 = good_new.reshape(-1,1,2)
 
-    return (movement, old_gray p0)
+    return (movement, old_gray, p0)
 
     
 def optical_flow():
@@ -87,7 +86,7 @@ def optical_flow():
             a,b = new.ravel()
             c,d = old.ravel()
             if (a - c) > 3:
-                print("YEAH BOI, Get it in !!!!")
+                print("ESKETIT!!")
             #print(a,b,c,d)
             mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), i)
             frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
