@@ -39,16 +39,14 @@ def direction(old_gray, frame, p0, mask, color):
     for i,(new,old) in enumerate(zip(good_new,good_old)):
         a,b = new.ravel()
         c,d = old.ravel()
-        if (a - c) > 3:
+        movementTolerance = 3
+        if (a - c) > movementTolerance:
             movement = True
-        #print(a,b,c,d)
-        #mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), i)
-        #frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
         mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), i)
         #frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
         img = cv2.add(frame,mask)
     
-    cv2.imshow('frame',img)
+    cv2.imshow('Optical Flow',img)
     k = cv2.waitKey(30) & 0xff
     
  
@@ -105,7 +103,7 @@ def optical_flow():
             frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
         img = cv2.add(frame,mask)
     
-        cv2.imshow('frame',img)
+        cv2.imshow('Optical Flow',img)
         k = cv2.waitKey(30) & 0xff
         if k == 27:
             break
