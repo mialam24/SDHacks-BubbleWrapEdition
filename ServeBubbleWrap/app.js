@@ -14,7 +14,7 @@ app
 	});
   });
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 var router = require('./api/routes.js');
 

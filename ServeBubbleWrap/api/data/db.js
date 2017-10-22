@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var dburl = 'mongodb://localhost:27017/tutorsms';
+var dburl = 'mongodb://localhost:27017/fridgeData';
 
 mongoose.connect(dburl);
 
@@ -27,4 +27,4 @@ process.on('SIGINT', function() {
     process.exit(0);
   });
 });
-require('./students.model')
+require('./fridgeItem.model.js');

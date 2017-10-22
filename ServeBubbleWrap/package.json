@@ -1,26 +1,12 @@
 {
-  "name": "tutorsms",
+  "name": "serveBubbleWrap",
   "version": "1.0.0",
-  "description": "web app that displays data about tutoring sessions from MESA DVC's tutoring center which uses texting to queue up tutees. Learning project to learn mean stack",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/WillyTheWhale/tutorsms.git"
-  },
-  "keywords": [
-    "mean",
-    "twilio",
-    "tutor"
-  ],
   "author": "Willy Ma",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/WillyTheWhale/tutorsms/issues"
-  },
-  "homepage": "https://github.com/WillyTheWhale/tutorsms#readme",
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2"
