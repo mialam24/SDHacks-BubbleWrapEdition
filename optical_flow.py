@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 # params for ShiTomasi corner detection
 feature_params = dict( maxCorners = 100,
@@ -40,7 +40,10 @@ while(1):
     for i,(new,old) in enumerate(zip(good_new,good_old)):
         a,b = new.ravel()
         c,d = old.ravel()
-        mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), 2)
+        if (a - c) > 3:
+            print("YEAH BOI, Get it in !!!!")
+        #print(a,b,c,d)
+        mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), i)
         frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
     img = cv2.add(frame,mask)
 
