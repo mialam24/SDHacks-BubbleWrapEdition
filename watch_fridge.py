@@ -58,10 +58,11 @@ def watch(rate = 30):
 		movement, old_gray, p0 = direction(old_gray, img, p0, mask, color)
 		if movement:
 			print("MOVED")
+			addItem("apple")
 		i += 1
 		if cv2.waitKey(25) & 0xFF == ord('q'):
 			break
 
 if __name__ == '__main__':
-    #watch()
-	addItem('apple')
+    watch()
+	#addItem('apple')
