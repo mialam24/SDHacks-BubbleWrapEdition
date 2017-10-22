@@ -97,4 +97,4 @@ def label_image(image_data, labels_file='output_labels.txt', graph_file='output_
 
 if __name__ == '__main__':
 	image_data = load_image('raw_data/apple/apple_0.jpg')
-    label_image(image_data)
+	label_image(image_data)
