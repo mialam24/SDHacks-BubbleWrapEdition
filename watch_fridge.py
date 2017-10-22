@@ -7,6 +7,15 @@ import cv2
 from multiprocessing import Process
 from optical_flow import initializeDirection, direction
 
+from datetime import datetime, timedelta
+from pymongo import MongoClient
+
+#Connect to local database
+client = MongoClient()
+db = client.test
+fridge = db.fridge
+
+
 def labeller(img):
 	cv2.imwrite('temp.jpg', img)
 	label = label_image('temp.jpg')
@@ -15,6 +24,24 @@ def labeller(img):
 def differencer(img):
 	liveDiff.liveDiff(img)
 
+def addItem(item):
+	now = datetime.utcnow()
+	entry = {
+             'item': "apple",
+             'quantity': 1,
+             'entryDate': now,
+             'expDate': now + timedelta(days=7)
+	}
+	if item == 'apple':
+		entry['item'] = item
+	elif item == 'soda-can':
+		entry['item'] = item
+	elif item == 'water-bottle':
+		entry['item'] = item
+	else:
+		print("Error: I don't know")
+
+	fridge.insert_one(entry)
 
 def watch(rate = 30):
 	i = 0
@@ -36,4 +63,5 @@ def watch(rate = 30):
 			break
 
 if __name__ == '__main__':
-    watch()
+    #watch()
+	addItem('apple')
