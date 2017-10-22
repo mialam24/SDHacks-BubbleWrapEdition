@@ -9,12 +9,17 @@ from optical_flow import initializeDirection, direction
 
 from datetime import datetime, timedelta
 from pymongo import MongoClient
+import requests
+import random
+
+last_added = time.time()
 
 #Connect to local database
 client = MongoClient()
 db = client.test
 fridge = db.fridge
 
+url = 'http://localhost:3000'
 
 def labeller(img):
 	cv2.imwrite('temp.jpg', img)
@@ -26,30 +31,40 @@ def differencer(img):
 	liveDiff.liveDiff(img)
 
 def addItem(item):
+	global last_added
+
+	if time.time() - last_added < 3: return
 	now = datetime.utcnow()
 	entry = {
-             'item': "apple",
-             'quantity': 1,
-             'entryDate': now,
-             'expDate': now + timedelta(days=7)
+             'name': item + ' ' + str(random.randint(0, 1000000)),
+             'label': 'tbd',
+             'dateStored': str(now),
+             'dateExp': now + timedelta(days=7)
 	}
 	if item == 'apple':
-		entry['item'] = item
+		entry['label'] = item
 		delta = timedelta(days=7)
 	elif item == 'soda can':
-		entry['item'] = item
+		entry['label'] = item
 		delta = timedelta(days=120)
 	elif item == 'water bottle':
-		entry['item'] = item
+		entry['label'] = item
 		delta = timedelta(days=6000)
 	else:
-		print("Error: I don't know")
+		#print("Error: I don't know")
 		return
 
-	entry['expDate'] = now + delta
+	entry['dateExp'] = now + delta
+	entry['dateExp'] = str(entry['dateExp'])
 
 	print("Adding item", item)
+	last_added = time.time()
 	fridge.insert_one(entry)
+
+	# r = requests.post(url + '/api/in', data=entry)
+
+def delete():
+	fridge.delete_many({})
 
 def watch(rate = 30):
 	i = 0
@@ -74,3 +89,4 @@ def watch(rate = 30):
 if __name__ == '__main__':
     watch()
 	#addItem('apple')
+	#delete()
