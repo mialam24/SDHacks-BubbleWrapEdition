@@ -19,6 +19,7 @@ fridge = db.fridge
 def labeller(img):
 	cv2.imwrite('temp.jpg', img)
 	label = label_image('temp.jpg')
+	return label
 
 
 def differencer(img):
@@ -34,13 +35,20 @@ def addItem(item):
 	}
 	if item == 'apple':
 		entry['item'] = item
-	elif item == 'soda-can':
+		delta = timedelta(days=7)
+	elif item == 'soda can':
 		entry['item'] = item
-	elif item == 'water-bottle':
+		delta = timedelta(days=120)
+	elif item == 'water bottle':
 		entry['item'] = item
+		delta = timedelta(days=6000)
 	else:
 		print("Error: I don't know")
+		return
 
+	entry['expDate'] = now + delta
+
+	print("Adding item", item)
 	fridge.insert_one(entry)
 
 def watch(rate = 30):
@@ -52,13 +60,13 @@ def watch(rate = 30):
 	while(True):
 		img = takePicture()
 		if i % 15 == 0:
-			labeller(img)
+			label = labeller(img)
 		differencer(img)
 		#cv2.imshow('Raw Image', img)
 		movement, old_gray, p0 = direction(old_gray, img, p0, mask, color)
 		if movement:
 			print("MOVED")
-			addItem("apple")
+			addItem(label)
 		i += 1
 		if cv2.waitKey(25) & 0xFF == ord('q'):
 			break

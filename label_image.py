@@ -84,12 +84,18 @@ def run_graph(image_data, labels, input_layer_name, output_layer_name,
     # Sort to show labels in order of confidence
     top_k = predictions.argsort()[-num_top_predictions:][::-1]
     print('\n-----------------------------------------------------------')
+    max_id = 0
     for node_id in top_k:
       human_string = labels[node_id]
       score = predictions[node_id]
       print('%s (score = %.5f)' % (human_string, score))
+      if score > 0.75: max_id = node_id
 
-    return 0
+    threshold = 0.75
+    if predictions[max_id] > threshold:
+      return labels[max_id]
+    else:
+      return "cannot be sure"
 
 def label_image(image_file, labels_file='output_labels.txt',  
                 input_layer='DecodeJpeg/contents:0', output_layer='final_result:0', num_top_predictions=5):
@@ -97,7 +103,7 @@ def label_image(image_file, labels_file='output_labels.txt',
   labels = load_labels(labels_file)
   image_data = load_image(image_file)
 
-  run_graph(image_data, labels, input_layer, output_layer,
+  return run_graph(image_data, labels, input_layer, output_layer,
             num_top_predictions)
 
 if __name__ == '__main__':
