@@ -24,17 +24,17 @@ tr:nth-child(even) {
 <body>
   <table>
     <tr>
-      <th>Item</th>
-      <th>Quantity</th>
+      <th>Name</th>
+      <th>Label</th>
       <th>Entry Date</th>
       <th>Expiration Date</th>
     </tr>
     {%for entry in entries%}
     <tr>
-      <td>{{entry.item}}</td>
-      <td>{{entry.quantity}}</td>
-      <td>{{entry.entryDate}}</td>
-      <td>{{entry.expDate}}</td>
+      <td>{{entry.name}}</td>
+      <td>{{entry.label}}</td>
+      <td>{{entry.dateStored}}</td>
+      <td>{{entry.dateExp}}</td>
     </tr>
     {%endfor%}
   </table>

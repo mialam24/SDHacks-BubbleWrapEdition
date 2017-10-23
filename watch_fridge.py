@@ -9,7 +9,7 @@ from optical_flow import initializeDirection, direction
 
 from datetime import datetime, timedelta
 from pymongo import MongoClient
-import requests
+# import requests
 import random
 
 last_added = time.time()
@@ -33,7 +33,7 @@ def differencer(img):
 def addItem(item):
 	global last_added
 
-	if time.time() - last_added < 3: return
+	if time.time() - last_added < 5: return
 	now = datetime.utcnow()
 	entry = {
              'name': item + ' ' + str(random.randint(0, 1000000)),
@@ -80,7 +80,7 @@ def watch(rate = 30):
 		#cv2.imshow('Raw Image', img)
 		movement, old_gray, p0 = direction(old_gray, img, p0, mask, color)
 		if movement:
-			print("MOVED")
+			# print("MOVED")
 			addItem(label)
 		i += 1
 		if cv2.waitKey(25) & 0xFF == ord('q'):
