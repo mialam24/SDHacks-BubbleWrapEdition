@@ -29,11 +29,16 @@ def direction(old_gray, frame, p0, mask, color):
    
     # calculate optical flow
     p1, st, err = cv2.calcOpticalFlowPyrLK(old_gray, frame_gray, p0, None, **lk_params)
+    
+    movement = False
+    
+	#When optical flow fails return the starting values
+    if(p1 is None):
+        return (movement, old_gray, p0)
     # Select good points
     good_new = p1[st==1]
     good_old = p0[st==1]
     
-    movement = False
 
     # draw the tracks
     for i,(new,old) in enumerate(zip(good_new,good_old)):
