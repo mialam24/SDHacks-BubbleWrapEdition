@@ -44,9 +44,9 @@ def direction(old_gray, frame, p0, mask, color):
             movement = True
         mask = cv2.line(mask, (a,b),(c,d), color[i].tolist(), i)
         #frame = cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
-        img = cv2.add(frame,mask)
+        frame = cv2.add(frame,mask)
     
-    cv2.imshow('Optical Flow',img)
+    cv2.imshow('Optical Flow',frame)
     k = cv2.waitKey(30) & 0xff
     
  
